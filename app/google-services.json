@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1048562810965",
+    "firebase_url": "https://chtsys-88eab.firebaseio.com",
+    "project_id": "chtsys-88eab",
+    "storage_bucket": "chtsys-88eab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048562810965:android:d2c593810f731e70",
+        "android_client_info": {
+          "package_name": "com.kadek.chtsys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048562810965-rk84a2qbb5ev9tfi2tc7gggo7h91glhk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kadek.chtsys",
+            "certificate_hash": "ddcc3e327414a123c59f3a271476effefa180943"
+          }
+        },
+        {
+          "client_id": "1048562810965-862mn259rn114s89ae11lcbhnhut7uqi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCONZ5TOAYKNp9VxzEpvxnTqfL_KM24bJo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048562810965-862mn259rn114s89ae11lcbhnhut7uqi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
