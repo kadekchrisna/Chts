@@ -17,7 +17,8 @@
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="Welcome To ChatSys"
-        android:textSize="20dp"
+        android:textSize="24sp"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/buttonregisawal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,13 +30,28 @@
         android:id="@+id/buttonregisawal"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="244dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Register"
+        android:text="NEED A NEW ACCOUNT?"
+        android:background="@color/colorAccent"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="275dp" />
+
+    <Button
+        android:id="@+id/buttonloginawal"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="180dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="ALREADY HAVE ACCOUNT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonregisawal" />
 
 
 </android.support.constraint.ConstraintLayout>
