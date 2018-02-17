@@ -28,7 +28,9 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".StatusActivity"
+            android:parentActivityName=".SettingActivity"></activity>
     </application>
 
 </manifest>
