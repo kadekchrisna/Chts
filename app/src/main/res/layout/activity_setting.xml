@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.287" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/setting_change_image"
         android:layout_width="139dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="184dp"
@@ -32,18 +32,18 @@
         tools:layout_editor_absoluteX="123dp" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/setting_change_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorAccent"
         android:text="CHANGE STATUS"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/setting_change_image"
         tools:layout_editor_absoluteX="123dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/setting_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -54,13 +54,13 @@
         tools:layout_editor_absoluteX="116dp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/setting_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Hi there, I'm using this shitty apps"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/setting_display_name"
         tools:layout_editor_absoluteX="89dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SectionPagerAdapter sectionPagerAdapter;
     private TabLayout tabLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

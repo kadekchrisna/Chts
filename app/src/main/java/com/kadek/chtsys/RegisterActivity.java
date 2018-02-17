@@ -17,6 +17,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout mDisplayName;
@@ -27,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ProgressDialog progressDialog;
 
+    private DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,17 +69,37 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void register_user(String name, String email, String pass) {
+    private void register_user(final String name, String email, String pass) {
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    progressDialog.dismiss();
-                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(mainIntent);
-                    finish();
+
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = currentUser.getUid();
+
+                    databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+
+                    HashMap<String, String> userMap = new HashMap<>();
+                    userMap.put("name", name);
+                    userMap.put("status", "Hi there, I'm using this shitty apps.");
+                    userMap.put("image", "default");
+                    userMap.put("thumb_image", "default");
+
+                    databaseReference.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                progressDialog.dismiss();
+                                Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(mainIntent);
+                                finish();
+
+                            }
+                        }
+                    });
 
                 }else{
                     progressDialog.hide();
