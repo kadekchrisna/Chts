@@ -88,29 +88,63 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        if(dataSnapshot.hasChild(user_id)){
+                        if(dataSnapshot.hasChild(user_id)) {
 
                             String req_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
 
-                            if (req_type.equals("recieved")){
+                            if (req_type.equals("recieved")) {
 
                                 mProfileReqButton.setText("Accept Firend Request");
                                 mCurrent_state = "req_recieved";
+                                mProfileDecReqButton.setVisibility(View.VISIBLE);
+                                mProfileDecReqButton.setEnabled(true);
 
-                            }else if (req_type.equals("sent")){
+
+                            } else if (req_type.equals("sent")) {
 
                                 mProfileReqButton.setText("Cancel Firend Request");
                                 mCurrent_state = "req_sent";
 
+                                mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                                mProfileDecReqButton.setEnabled(false);
+
                             }
+                            mProgressDialog.dismiss();
+                        }else{
+
+                            mFriendDatabase.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                                    if (dataSnapshot.hasChild(user_id)){
+
+                                        mProfileReqButton.setText("Unfriend this Person");
+                                        mCurrent_state = "friends";
+                                        mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                                        mProfileDecReqButton.setEnabled(false);
+
+
+                                    }
+                                    mProgressDialog.dismiss();
+
+                                }
+
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                    mProgressDialog.dismiss();
+
+                                }
+                            });
 
                         }
-                        mProgressDialog.dismiss();
-
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+                        mProgressDialog.dismiss();
 
                     }
                 });
@@ -149,6 +183,10 @@ public class ProfileActivity extends AppCompatActivity {
                                         mProfileReqButton.setText("Cancel Firend Request");
                                         mCurrent_state = "req_sent";
 
+                                        mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                                        mProfileDecReqButton.setEnabled(false);
+
+
 
                                         Toast.makeText(ProfileActivity.this, "Friend Request Sent. ", Toast.LENGTH_LONG).show();
                                     }
@@ -179,6 +217,10 @@ public class ProfileActivity extends AppCompatActivity {
                                             mProfileReqButton.setEnabled(true);
                                             mProfileReqButton.setText("Sent Friend Request");
                                             mCurrent_state = "not_friend";
+
+                                            mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                                            mProfileDecReqButton.setEnabled(false);
+
 
                                         }
                                     });
@@ -225,6 +267,10 @@ public class ProfileActivity extends AppCompatActivity {
                                                                                   mProfileReqButton.setText("Unfriend this Person");
                                                                                   mCurrent_state = "friends";
 
+                                                                                  mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                                                                                  mProfileDecReqButton.setEnabled(false);
+
+
                                                                               }
                                                                           });
 
@@ -246,6 +292,37 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
                             });
 
+                }
+
+                if (mCurrent_state.equals("friends")){
+                    mFriendDatabase.child(mCurrentUser.getUid()).child(user_id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            mFriendDatabase.child(user_id).child(mCurrentUser.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    mProfileReqButton.setText("Sent Friend Request");
+                                    mCurrent_state = "not_friend";
+                                    mProfileReqButton.setEnabled(true);
+
+                                    mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                                    mProfileDecReqButton.setEnabled(false);
+
+                                }
+                            });
+
+
+                        }
+                    });
+                    mFriendDatabase.child(mCurrentUser.getUid()).child(user_id).removeValue().addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                           Toast.makeText(ProfileActivity.this, "Failed to Delete this Person. ",Toast.LENGTH_LONG).show();
+                            mProfileReqButton.setEnabled(true);
+                            mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                            mProfileDecReqButton.setEnabled(false);
+                        }
+                    });
                 }
             }
         });
