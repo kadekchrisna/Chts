@@ -25,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -32,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView mProfileImage;
     private Button mProfileReqButton, mProfileDecReqButton;
 
-    private DatabaseReference mUsersDatabase, mFriendReqDatabase, mFriendDatabase;
+    private DatabaseReference mUsersDatabase, mFriendReqDatabase, mFriendDatabase, mNotificationDatabase;
     private FirebaseUser mCurrentUser;
 
     private ProgressDialog mProgressDialog;
@@ -50,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
         mFriendReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friend_req");
         mFriendDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mNotificationDatabase = FirebaseDatabase.getInstance().getReference().child("notifications");
 
         mProfileName = (TextView) findViewById(R.id.profile_display_name);
         mProfileName.setText(user_id);
@@ -179,16 +181,25 @@ public class ProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
+                                        HashMap<String, String> notificationData = new HashMap<>();
+                                        notificationData.put("from", mCurrentUser.getUid());
+                                        notificationData.put("type", "request");
 
-                                        mProfileReqButton.setText("Cancel Firend Request");
-                                        mCurrent_state = "req_sent";
+                                        mNotificationDatabase.child(user_id).push().setValue(notificationData)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
 
-                                        mProfileDecReqButton.setVisibility(View.INVISIBLE);
-                                        mProfileDecReqButton.setEnabled(false);
+                                                mProfileReqButton.setText("Cancel Firend Request");
+                                                mCurrent_state = "req_sent";
 
+                                                mProfileDecReqButton.setVisibility(View.INVISIBLE);
+                                                mProfileDecReqButton.setEnabled(false);
 
+                                                Toast.makeText(ProfileActivity.this, "Friend Request Sent. ", Toast.LENGTH_LONG).show();
 
-                                        Toast.makeText(ProfileActivity.this, "Friend Request Sent. ", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
                                     }
                                 });
 
