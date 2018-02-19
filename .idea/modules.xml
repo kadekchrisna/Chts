@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ChtSys.iml" filepath="$PROJECT_DIR$/ChtSys.iml" />
       <module fileurl="file://$PROJECT_DIR$/Chtsys.iml" filepath="$PROJECT_DIR$/Chtsys.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

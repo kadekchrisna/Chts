@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 
@@ -78,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     String uid = currentUser.getUid();
+                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
 
                     databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
@@ -86,11 +88,13 @@ public class RegisterActivity extends AppCompatActivity {
                     userMap.put("status", "Hi there, I'm using this shitty apps.");
                     userMap.put("image", "default");
                     userMap.put("thumb_image", "default");
+                    userMap.put("device_token", deviceToken);
 
                     databaseReference.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
+
                                 progressDialog.dismiss();
                                 Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
                                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -109,7 +110,7 @@ public class UsersActivity extends AppCompatActivity {
         public void setImage(String thumb_image, Context ctx){
 
             CircleImageView mUserImageView = (CircleImageView)mView.findViewById(R.id.circle_image_alluser);
-            Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.avatar_pic).into(mUserImageView);
+            Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.avatar_pic).into(mUserImageView);
 
         }
 

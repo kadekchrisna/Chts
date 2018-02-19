@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -82,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mProfileName.setText(display_name);
                 mProfileStatus.setText(status);
 
-                Picasso.with(ProfileActivity.this).load(image).placeholder(R.drawable.avatar_pic).into(mProfileImage);
+                Picasso.with(ProfileActivity.this).load(image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.avatar_pic).into(mProfileImage);
 
                 //--------------FIREND LIST / REQ FEATURE------------------
 
@@ -254,11 +255,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                     final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
 
-                    mFriendDatabase.child(mCurrentUser.getUid()).child(user_id).setValue(currentDate)
+                    mFriendDatabase.child(mCurrentUser.getUid()).child(user_id).child("date").setValue(currentDate)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                  mFriendDatabase.child(user_id).child(mCurrentUser.getUid()).setValue(currentDate)
+                                  mFriendDatabase.child(user_id).child(mCurrentUser.getUid()).child("date").setValue(currentDate)
                                           .addOnSuccessListener(new OnSuccessListener<Void>() {
                                               @Override
                                               public void onSuccess(Void aVoid) {
