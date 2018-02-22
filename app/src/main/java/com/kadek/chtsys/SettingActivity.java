@@ -99,7 +99,7 @@ public class SettingActivity extends AppCompatActivity {
                         @Override
                         public void onError() {
                             Picasso.with(SettingActivity.this).load(image).placeholder(R.drawable.avatar_pic).into(displayImage);
-                            Toast.makeText(SettingActivity.this, "Erorr on offline cap", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SettingActivity.this, "Erorr on offline cap setting", Toast.LENGTH_LONG).show();
                         }
                     });
 

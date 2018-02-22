@@ -11,10 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -107,10 +109,21 @@ public class UsersActivity extends AppCompatActivity {
             mUserStatusView.setText(status);
         }
 
-        public void setImage(String thumb_image, Context ctx){
+        public void setImage(final String thumb_image, final Context ctx){
 
-            CircleImageView mUserImageView = (CircleImageView)mView.findViewById(R.id.circle_image_alluser);
-            Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.avatar_pic).into(mUserImageView);
+            final CircleImageView mUserImageView = (CircleImageView)mView.findViewById(R.id.circle_image_alluser);
+            Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.avatar_pic).into(mUserImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError() {
+                    Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.avatar_pic).into(mUserImageView);
+
+                }
+            });
 
         }
 
