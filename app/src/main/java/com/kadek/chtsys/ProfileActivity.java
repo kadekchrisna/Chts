@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView mProfileImage;
     private Button mProfileReqButton, mProfileDecReqButton;
 
-    private DatabaseReference mUsersDatabase, mFriendReqDatabase, mFriendDatabase, mNotificationDatabase;
+    private DatabaseReference mUsersDatabase, mFriendReqDatabase, mFriendDatabase, mNotificationDatabase, mRootRef;
     private FirebaseUser mCurrentUser;
 
     private ProgressDialog mProgressDialog;
@@ -54,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         mFriendDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         mNotificationDatabase = FirebaseDatabase.getInstance().getReference().child("notifications");
+        mRootRef = FirebaseDatabase.getInstance().getReference();
 
         mProfileName = (TextView) findViewById(R.id.profile_display_name);
         mProfileName.setText(user_id);
@@ -65,8 +67,8 @@ public class ProfileActivity extends AppCompatActivity {
         mProfileDecReqButton = (Button) findViewById(R.id.profile_decline_firend_button);
 
         mCurrent_state = "not_friend";
-
-
+        mProfileDecReqButton.setVisibility(View.INVISIBLE);
+        mProfileDecReqButton.setEnabled(false);
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("Loading User Data");
@@ -181,46 +183,32 @@ public class ProfileActivity extends AppCompatActivity {
                 mProfileReqButton.setEnabled(false);
                 if (mCurrent_state.equals("not_friend")){
 
-                    mFriendReqDatabase.child(mCurrentUser.getUid()).child(user_id).child("request_type")
-                            .setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    DatabaseReference newNotificationref = mRootRef.child("notifications").child(user_id).push();
+                    String newNotificationId = newNotificationref.getKey();
+
+                    HashMap<String, String> notificationData = new HashMap<>();
+                    notificationData.put("from", mCurrentUser.getUid());
+                    notificationData.put("type", "request");
+
+                    Map requestMap = new HashMap();
+                    requestMap.put("Friend_req/" + mCurrentUser.getUid() + "/" + user_id + "/request_type", "sent");
+                    requestMap.put("Friend_req/" + user_id + "/" + mCurrentUser.getUid() + "/request_type", "recieved");
+                    requestMap.put("notifications/" + user_id + "/" + newNotificationId, notificationData);
+
+                    mRootRef.updateChildren(requestMap, new DatabaseReference.CompletionListener() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            if(databaseError != null){
 
-                            if (task.isSuccessful()){
-
-                                mFriendReqDatabase.child(user_id).child(mCurrentUser.getUid()).child("request_type")
-                                        .setValue("recieved").addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-
-                                        HashMap<String, String> notificationData = new HashMap<>();
-                                        notificationData.put("from", mCurrentUser.getUid());
-                                        notificationData.put("type", "request");
-
-                                        mNotificationDatabase.child(user_id).push().setValue(notificationData)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-
-                                                mProfileReqButton.setText("Cancel Firend Request");
-                                                mCurrent_state = "req_sent";
-
-                                                mProfileDecReqButton.setVisibility(View.INVISIBLE);
-                                                mProfileDecReqButton.setEnabled(false);
-
-                                                Toast.makeText(ProfileActivity.this, "Friend Request Sent. ", Toast.LENGTH_LONG).show();
-
-                                            }
-                                        });
-                                    }
-                                });
-
-                            }else {
-                                Toast.makeText(ProfileActivity.this, "Failed Sending Request. ",Toast.LENGTH_LONG ).show();
+                                Toast.makeText(ProfileActivity.this, "There was some error in sending request", Toast.LENGTH_LONG ).show();
 
                             }
                             mProfileReqButton.setEnabled(true);
+                            mProfileReqButton.setText("Cancel Firend Request");
+                            mCurrent_state = "req_sent";
+
                         }
+
                     });
 
                 }
