@@ -1,11 +1,14 @@
 package com.kadek.chtsys;
 
+import android.graphics.Color;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
@@ -20,6 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>{
 
     private List<Messages> mMessageList;
+    private FirebaseAuth mAuth;
 
     public MessageAdapter(List<Messages> mMessageList){
         this.mMessageList = mMessageList;
@@ -55,7 +59,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(MessageViewHolder viewHolder, int i) {
 
+        mAuth = FirebaseAuth.getInstance();
+
+        String current_user_id = mAuth.getCurrentUser().getUid();
+
         Messages c = mMessageList.get(i);
+
+        String from_user = c.getFrom();
+
+        if (from_user.equals(current_user_id)){
+
+            viewHolder.messageText.setBackgroundColor(Color.WHITE);
+            viewHolder.messageText.setTextColor(Color.BLACK);
+
+        }else {
+
+            viewHolder.messageText.setBackgroundResource(R.drawable.message_text_background);
+            viewHolder.messageText.setTextColor(Color.WHITE);
+
+        }
         viewHolder.messageText.setText(c.getMessage());
         //viewHolder.timeText.setText(c.getMessage());
 

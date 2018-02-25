@@ -6,16 +6,33 @@ package com.kadek.chtsys;
 
 public class Messages {
 
-    private String message, type, from;
+    private String message, type;
     private long time;
     private boolean seen;
+
+    private String from;
+
+    public String getFrom() {
+        return from;
+    }
+
+    public Messages (String from) {
+        this.from = from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
 
     public Messages(String message, boolean seen, long time, String type){
         this.message = message;
         this.seen = seen;
         this.time = time;
         this.type = type;
-        //this.from = from;
     }
 
     public String getMessage() {
@@ -24,10 +41,6 @@ public class Messages {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public boolean getSeen() {
-        return seen;
     }
 
     public void setSeen(boolean seen) {
