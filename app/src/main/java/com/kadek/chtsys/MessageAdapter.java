@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -24,6 +26,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     private List<Messages> mMessageList;
     private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
 
     public MessageAdapter(List<Messages> mMessageList){
         this.mMessageList = mMessageList;
@@ -43,6 +46,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public class MessageViewHolder extends RecyclerView.ViewHolder{
         public TextView messageText;
         public TextView timeText;
+        public TextView displayName;
         public CircleImageView profileImage;
 
         public MessageViewHolder(View view){
@@ -50,8 +54,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             messageText = (TextView)view.findViewById(R.id.message_text_layout);
             profileImage = (CircleImageView)view.findViewById(R.id.message_profile_layout);
-
-            //timeText = (TextView)view.findViewById(R.id.message__layout)
+            displayName = (TextView)view.findViewById(R.id.name_text_layout);
+            //timeText = (TextView)view.findViewById(R.id.message_layout)
 
         }
     }
