@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager_main);
         sectionPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
 
-        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        if (mAuth.getCurrentUser() != null) {
 
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }
         viewPager.setAdapter(sectionPagerAdapter);
         tabLayout = (TabLayout)findViewById(R.id.main_tabs);
         tabLayout.setupWithViewPager(viewPager);

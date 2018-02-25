@@ -11,6 +11,18 @@
         android:id="@+id/chat_app_bar"
         layout="@layout/app_bar_layout" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/message_list"
+        android:layout_width="match_parent"
+        android:layout_height="515dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.396"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints"></android.support.v7.widget.RecyclerView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="66dp"
@@ -20,25 +32,26 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/chat_add_button"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_input_add" />
 
-        <TextView
-            android:id="@+id/textView2"
+        <EditText
+            android:id="@+id/chat_message_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:layout_weight="8"
+            android:autoText="false"
             android:gravity="fill_vertical"
-            android:padding="10dp"
-            android:text="TextView" />
+            android:hint="Enter Messsage.."
+            android:padding="10dp" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/chat_send_btn"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
