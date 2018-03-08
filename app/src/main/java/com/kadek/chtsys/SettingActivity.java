@@ -160,15 +160,11 @@ public class SettingActivity extends AppCompatActivity {
                 String current_user_id = currentUser.getUid();
 
                 Bitmap thumb_bitmap = null;
-                try {
-                    thumb_bitmap = new Compressor(this)
-                            .setMaxHeight(200)
-                            .setMaxWidth(200)
-                            .setQuality(75)
-                            .compressToBitmap(thumbFilePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                thumb_bitmap = new Compressor(this)
+                        .setMaxHeight(200)
+                        .setMaxWidth(200)
+                        .setQuality(75)
+                        .compressToBitmap(thumbFilePath);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
